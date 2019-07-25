@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/7 | drama</title>
+  <title>Spring Boot集成elasticsearch | drama</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="drama">
-<meta property="og:url" content="http://yoursite.com/archives/2019/07/index.html">
+  <meta name="description" content="ElasticSearch 是一个分布式、高扩展、高实时的搜索与数据分析引擎。它能很方便的使大量数据具有搜索、分析和探索的能力。本文使用Spring Boot搭建一个ElasticSearch的测试环境，并完成对 ElasticSearch 的高级使用技巧，包括创建索引、配置映射、删除索引、增删改查基本操作、复杂查询、高级查询、聚合查询等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot集成elasticsearch">
+<meta property="og:url" content="http://yoursite.com/2019/07/25/docker-elasticsearch/index.html">
 <meta property="og:site_name" content="drama">
+<meta property="og:description" content="ElasticSearch 是一个分布式、高扩展、高实时的搜索与数据分析引擎。它能很方便的使大量数据具有搜索、分析和探索的能力。本文使用Spring Boot搭建一个ElasticSearch的测试环境，并完成对 ElasticSearch 的高级使用技巧，包括创建索引、配置映射、删除索引、增删改查基本操作、复杂查询、高级查询、聚合查询等。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://github.com/dlpuscq/pic/blob/master/es%20run.png?raw=true">
+<meta property="og:image" content="https://github.com/dlpuscq/pic/blob/master/dejavu%20.png?raw=true">
+<meta property="og:image" content="https://github.com/dlpuscq/pic/blob/master/Repository.png?raw=true">
+<meta property="og:updated_time" content="2019-07-25T14:17:14.199Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="drama">
+<meta name="twitter:title" content="Spring Boot集成elasticsearch">
+<meta name="twitter:description" content="ElasticSearch 是一个分布式、高扩展、高实时的搜索与数据分析引擎。它能很方便的使大量数据具有搜索、分析和探索的能力。本文使用Spring Boot搭建一个ElasticSearch的测试环境，并完成对 ElasticSearch 的高级使用技巧，包括创建索引、配置映射、删除索引、增删改查基本操作、复杂查询、高级查询、聚合查询等。">
+<meta name="twitter:image" content="https://github.com/dlpuscq/pic/blob/master/es%20run.png?raw=true">
   
     <link rel="alternative" href="/atom.xml" title="drama" type="application/atom+xml">
   
@@ -150,37 +158,144 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-docker-elasticsearch" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/25/docker-elasticsearch/" class="archive-article-date">
-  	<time datetime="2019-07-25T02:17:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-25</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/25/docker-elasticsearch/">Spring Boot集成elasticsearch</a>
+    <h1 class="article-title" itemprop="name">
+      Spring Boot集成elasticsearch
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        
+        <a href="/2019/07/25/docker-elasticsearch/" class="archive-article-date">
+  	<time datetime="2019-07-25T02:17:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ElasticSearch 是一个分布式、高扩展、高实时的搜索与数据分析引擎。它能很方便的使大量数据具有搜索、分析和探索的能力。本文使用Spring Boot搭建一个ElasticSearch的测试环境，并完成对 ElasticSearch 的高级使用技巧，包括创建索引、配置映射、删除索引、增删改查基本操作、复杂查询、高级查询、聚合查询等。</p>
+<a id="more"></a>
+
+<h2 id="环境搭建和注意事项"><a href="#环境搭建和注意事项" class="headerlink" title="环境搭建和注意事项"></a>环境搭建和注意事项</h2><h3 id="ES7-2版本搭建"><a href="#ES7-2版本搭建" class="headerlink" title="ES7.2版本搭建"></a>ES7.2版本搭建</h3><p>搭建此环境时，ElasticSearch的版本为7.2.0，使用docker来搭建，在拉取镜像后，执行</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span>  -d -p 9200:9200 -p 9300:9300 --name es elasticsearch:7.2.0</span><br></pre></td></tr></table></figure>
+
+<p>会返回一个container id，一般情况下我们会任务容器启动成功，我们执行docker ps -a是发现它自动退出了，从网上找原因是因为ES需要jvm内存太大了，所有需要改一下配置，执行代码</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w vm.max_map_count=<span class="number">262144</span></span><br></pre></td></tr></table></figure>
+
+<p>然后将下面的命令运行一下:</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span> -d -e ES_JAVA_POTS="-Xms256m -Xmx256m" -p 9200:9200 -p 9300:9300 --name es 8f46db60ddd6</span><br></pre></td></tr></table></figure>
+
+<p>查看日志发现还是报错：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR: [<span class="number">1</span>] bootstrap checks failed</span><br><span class="line">[<span class="number">1</span>]: the default discovery settings are unsuitable for production use; at least one of [discovery.seed_hosts, discovery.seed_providers, cluster.initial_master_nodes] must be configured</span><br></pre></td></tr></table></figure>
+
+<p>解决办法如下:</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span> -d -e ES_JAVA_POTS="-Xms256m -Xmx256m"  -e "discovery.type=single-node" -p 9200:9200 -p </span><br><span class="line"><span class="number">9300</span>:<span class="number">9300</span> --name es <span class="number">8</span>f46db60ddd6</span><br></pre></td></tr></table></figure>
+
+<p>最终启动成功</p>
+<h3 id="ES6-x版本搭建"><a href="#ES6-x版本搭建" class="headerlink" title="ES6.x版本搭建"></a>ES6.x版本搭建</h3><p>我在实际编写demo的时候使用的es版本是6.5.3，使用docker一次性运行成功，不需要额外的配置，下面是所有步骤：</p>
+<ol>
+<li>下载镜像：docker pull elasticsearch:6.5.3</li>
+<li>运行容器：docker run -d -p 9200:9200 -p 9300:9300 –name elasticsearch-6.5.3 elasticsearch:6.5.3</li>
+<li>进入容器：docker exec -it elasticsearch-6.5.3 /bin/bash</li>
+<li>安装 ik 分词器：./bin/elasticsearch-plugin install <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.5.3/elasticsearch-analysis-ik-6.5.3.zip" target="_blank" rel="noopener">https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.5.3/elasticsearch-analysis-ik-6.5.3.zip</a></li>
+<li>修改 es 配置文件：vi ./config/elasticsearch.yml</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cluster.name: <span class="string">"docker-cluster"</span></span><br><span class="line">network.host: <span class="number">0.0</span>.0.0</span><br><span class="line">discovery.zen.minimum_master_nodes: <span class="number">1</span></span><br><span class="line">http.cors.enabled: <span class="keyword">true</span></span><br><span class="line">http.cors.allow-origin: <span class="string">"*"</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>退出容器：exit</li>
+<li>重启容器: docker restart es</li>
+</ol>
+<p>在地址栏输入 localhost:9200 发现安装成功</p>
+<p><img src="https://github.com/dlpuscq/pic/blob/master/es%20run.png?raw=true" alt="es-run"></p>
+<h3 id="ES可视化工具Dejavu安装"><a href="#ES可视化工具Dejavu安装" class="headerlink" title="ES可视化工具Dejavu安装"></a>ES可视化工具Dejavu安装</h3><p>dejavu是一个web端的控制界面，使用它我们可以通过连接到es后，进行数据的查看、导入导出、编辑，以及进行一些高级查询。</p>
+<ul>
+<li><p>项目地址： <a href="https://github.com/appbaseio/dejavu/" target="_blank" rel="noopener">https://github.com/appbaseio/dejavu/</a></p>
+</li>
+<li><p>使用docker安装</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span> -p 1358:1358 -d appbaseio/dejavu</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动访问： <a href="http://localhost:1358/" target="_blank" rel="noopener">http://localhost:1358/</a> 输入ES的地址和已经建好的索引(下文会有建索引和对数据的操作)，连接成功后可以看到这个界面的数据和功能十分直观。<br><img src="https://github.com/dlpuscq/pic/blob/master/dejavu%20.png?raw=true" alt="dejavu"></p>
+<h3 id="项目搭建"><a href="#项目搭建" class="headerlink" title="项目搭建"></a>项目搭建</h3><p>新建一个Spring Boot工程</p>
+<h5 id="1-引入依赖"><a href="#1-引入依赖" class="headerlink" title="1. 引入依赖"></a>1. 引入依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-devtools<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-elasticsearch<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>cn.hutool<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hutool-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.guava<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>guava<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="2-修改application-yml"><a href="#2-修改application-yml" class="headerlink" title="2. 修改application.yml"></a>2. 修改application.yml</h5><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  data:</span></span><br><span class="line"><span class="attr">    elasticsearch:</span></span><br><span class="line"><span class="attr">      cluster-name:</span> <span class="string">docker-cluster</span></span><br><span class="line"><span class="attr">      cluster-nodes:</span> <span class="attr">localhost:9300</span></span><br></pre></td></tr></table></figure>
+
+<p>cluster-name 要对应 ./config/elasticsearch.yml 配置文件中的cluster-name</p>
+<h5 id="3-新建实体类，实体类同时对应es中的索引"><a href="#3-新建实体类，实体类同时对应es中的索引" class="headerlink" title="3. 新建实体类，实体类同时对应es中的索引"></a>3. 新建实体类，实体类同时对应es中的索引</h5><blockquote>
+<p>@Document 作用在类，标记实体类为文档对象</p>
+<ul>
+<li>indexName：对应索引库名称</li>
+<li>type：对应在索引库中的类型</li>
+<li>shards：分片数量，默认5</li>
+<li>replicas：副本数量，默认1</li>
+</ul>
+<p>@Id 作用在成员变量，标记一个字段作为id主键<br>@Field 作用在成员变量，标记为文档的字段，并指定字段映射属性：</p>
+<blockquote>
+<p>type：字段类型，是枚举：FieldType，可以是text、long、short、date、integer、object等</p>
+<ul>
+<li>text：存储数据时候，会自动分词，并生成索引</li>
+<li>keyword：存储数据时候，不会分词建立索引</li>
+<li>Numerical：数值类型，分两类:基本数据类型和浮点数高精度类型</li>
+<li>Date:日期类型，Elasticsearch可以对日期格式化为字符串存储，但是建议我们存储为毫秒值，存储为long，节省空间。</li>
+</ul>
+<p>index：是否索引，布尔类型，默认是true<br>store：是否存储，布尔类型，默认是false<br>analyzer：分词器名称，这里的ik_max_word即使用ik分词器</p>
+</blockquote>
+</blockquote>
+<h6 id="Person-java"><a href="#Person-java" class="headerlink" title="Person.java"></a>Person.java</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Document</span>(indexName = EsConsts.INDEX_NAME, type = EsConsts.TYPE_NAME, shards = <span class="number">1</span>, replicas = <span class="number">0</span>)</span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 主键</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 名字</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Keyword)</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 国家</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Keyword)</span><br><span class="line">    <span class="keyword">private</span> String country;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 年龄</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Integer)</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 生日</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Date)</span><br><span class="line">    <span class="keyword">private</span> Date birthday;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 介绍</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.Text, analyzer = <span class="string">"ik_smart"</span>)</span><br><span class="line">    <span class="keyword">private</span> String remark;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-创建索引"><a href="#4-创建索引" class="headerlink" title="4. 创建索引"></a>4. 创建索引</h5><p>ElasticsearchTemplate中提供了创建索引的API：</p>
+<h6 id="TemplateTest-java"><a href="#TemplateTest-java" class="headerlink" title="TemplateTest.java"></a>TemplateTest.java</h6><blockquote>
+<p>主要测试创建索引、映射配置、删除索引</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TemplateTest</span> <span class="keyword">extends</span> <span class="title">SpringBootDemoElasticsearchApplicationTests</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ElasticsearchTemplate esTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试 ElasticTemplate 创建 index</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCreateIndex</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建索引，会根据Item类的@Document注解信息来创建</span></span><br><span class="line">        esTemplate.createIndex(Person.class);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 配置映射，会根据Item类中的id、Field等字段来自动完成映射</span></span><br><span class="line">        esTemplate.putMapping(Person.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试 ElasticTemplate 删除 index</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDeleteIndex</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        esTemplate.deleteIndex(Person.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-新增文档数据"><a href="#5-新增文档数据" class="headerlink" title="5. 新增文档数据"></a>5. 新增文档数据</h5><h6 id="Repository接口"><a href="#Repository接口" class="headerlink" title="Repository接口"></a>Repository接口</h6><p>Spring Data 的强大之处，就在于你不用写任何DAO处理，自动根据方法名或类的信息进行CRUD操作。只要你定义一个接口，然后继承Repository提供的一些子接口，就能具备各种基本的CRUD功能。<br>来看下Repository的继承关系：<br><img src="https://github.com/dlpuscq/pic/blob/master/Repository.png?raw=true" alt="Repository"><br>我们只需要定义接口，然后继承ElasticsearchRepository</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">PersonRepository</span> <span class="keyword">extends</span> <span class="title">ElasticsearchRepository</span>&lt;<span class="title">Person</span>, <span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据年龄区间查询</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> min 最小值</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> max 最大值</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 满足条件的用户列表</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">List&lt;Person&gt; <span class="title">findByAgeBetween</span><span class="params">(Integer min, Integer max)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="然后我们进行测试，主要功能，参见方法上的注释"><a href="#然后我们进行测试，主要功能，参见方法上的注释" class="headerlink" title="然后我们进行测试，主要功能，参见方法上的注释"></a>然后我们进行测试，主要功能，参见方法上的注释</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonRepositoryTest</span> <span class="keyword">extends</span> <span class="title">SpringBootDemoElasticsearchApplicationTests</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> PersonRepository repo;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试新增</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Person person = <span class="keyword">new</span> Person(<span class="number">1L</span>, <span class="string">"刘备"</span>, <span class="string">"蜀国"</span>, <span class="number">18</span>, DateUtil.parse(<span class="string">"1990-01-02 03:04:05"</span>), <span class="string">"刘备（161年－223年6月10日），即汉昭烈帝（221年－223年在位），又称先主，字玄德"</span>);</span><br><span class="line">        Person save = repo.save(person);</span><br><span class="line">        log.info(<span class="string">"【save】= &#123;&#125;"</span>, save);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试批量新增</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        List&lt;Person&gt; personList = Lists.newArrayList();</span><br><span class="line">        personList.add(<span class="keyword">new</span> Person(<span class="number">2L</span>, <span class="string">"曹操"</span>, <span class="string">"魏国"</span>, <span class="number">20</span>, DateUtil.parse(<span class="string">"1988-01-02 03:04:05"</span>), <span class="string">"曹操（155年－220年3月15日），字孟德"</span>));</span><br><span class="line">        personList.add(<span class="keyword">new</span> Person(<span class="number">3L</span>, <span class="string">"孙权"</span>, <span class="string">"吴国"</span>, <span class="number">19</span>, DateUtil.parse(<span class="string">"1989-01-02 03:04:05"</span>), <span class="string">"孙权（182年－252年5月21日），字仲谋"</span>));</span><br><span class="line">        personList.add(<span class="keyword">new</span> Person(<span class="number">4L</span>, <span class="string">"诸葛亮"</span>, <span class="string">"蜀国"</span>, <span class="number">16</span>, DateUtil.parse(<span class="string">"1992-01-02 03:04:05"</span>), <span class="string">"诸葛亮（181年-234年10月8日），字孔明"</span>));</span><br><span class="line">        Iterable&lt;Person&gt; people = repo.saveAll(personList);</span><br><span class="line">        log.info(<span class="string">"【people】= &#123;&#125;"</span>, people);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试更新</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        repo.findById(<span class="number">1L</span>).ifPresent(person -&gt; &#123;</span><br><span class="line">            person.setRemark(person.getRemark() + <span class="string">"\n更新更新更新更新更新"</span>);</span><br><span class="line">            Person save = repo.save(person);</span><br><span class="line">            log.info(<span class="string">"【save】= &#123;&#125;"</span>, save);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试删除</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 主键删除</span></span><br><span class="line">        repo.deleteById(<span class="number">1L</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 对象删除</span></span><br><span class="line">        repo.findById(<span class="number">2L</span>).ifPresent(person -&gt; repo.delete(person));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 批量删除</span></span><br><span class="line">        repo.deleteAll(repo.findAll());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试普通查询，按生日倒序</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">select</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        repo.findAll(Sort.by(Sort.Direction.DESC, <span class="string">"birthday"</span>))</span><br><span class="line">                .forEach(person -&gt; log.info(<span class="string">"&#123;&#125; 生日: &#123;&#125;"</span>, person.getName(), DateUtil.formatDateTime(person.getBirthday())));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 自定义查询，根据年龄范围查询</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">customSelectRangeOfAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        repo.findByAgeBetween(<span class="number">18</span>, <span class="number">19</span>).forEach(person -&gt; log.info(<span class="string">"&#123;&#125; 年龄: &#123;&#125;"</span>, person.getName(), person.getAge()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 高级查询</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">advanceSelect</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// QueryBuilders 提供了很多静态方法，可以实现大部分查询条件的封装</span></span><br><span class="line">        MatchQueryBuilder queryBuilder = QueryBuilders.matchQuery(<span class="string">"name"</span>, <span class="string">"孙权"</span>);</span><br><span class="line">        log.info(<span class="string">"【queryBuilder】= &#123;&#125;"</span>, queryBuilder.toString());</span><br><span class="line"></span><br><span class="line">        repo.search(queryBuilder).forEach(person -&gt; log.info(<span class="string">"【person】= &#123;&#125;"</span>, person));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 自定义高级查询</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">customAdvanceSelect</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 构造查询条件</span></span><br><span class="line">        NativeSearchQueryBuilder queryBuilder = <span class="keyword">new</span> NativeSearchQueryBuilder();</span><br><span class="line">        <span class="comment">// 添加基本的分词条件</span></span><br><span class="line">        queryBuilder.withQuery(QueryBuilders.matchQuery(<span class="string">"remark"</span>, <span class="string">"东汉"</span>));</span><br><span class="line">        <span class="comment">// 排序条件</span></span><br><span class="line">        queryBuilder.withSort(SortBuilders.fieldSort(<span class="string">"age"</span>).order(SortOrder.DESC));</span><br><span class="line">        <span class="comment">// 分页条件</span></span><br><span class="line">        queryBuilder.withPageable(PageRequest.of(<span class="number">0</span>, <span class="number">2</span>));</span><br><span class="line">        Page&lt;Person&gt; people = repo.search(queryBuilder.build());</span><br><span class="line">        log.info(<span class="string">"【people】总条数 = &#123;&#125;"</span>, people.getTotalElements());</span><br><span class="line">        log.info(<span class="string">"【people】总页数 = &#123;&#125;"</span>, people.getTotalPages());</span><br><span class="line">        people.forEach(person -&gt; log.info(<span class="string">"【person】= &#123;&#125;，年龄 = &#123;&#125;"</span>, person.getName(), person.getAge()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试聚合，测试平均年龄</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">agg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 构造查询条件</span></span><br><span class="line">        NativeSearchQueryBuilder queryBuilder = <span class="keyword">new</span> NativeSearchQueryBuilder();</span><br><span class="line">        <span class="comment">// 不查询任何结果</span></span><br><span class="line">        queryBuilder.withSourceFilter(<span class="keyword">new</span> FetchSourceFilter(<span class="keyword">new</span> String[]&#123;<span class="string">""</span>&#125;, <span class="keyword">null</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 平均年龄</span></span><br><span class="line">        queryBuilder.addAggregation(AggregationBuilders.avg(<span class="string">"avg"</span>).field(<span class="string">"age"</span>));</span><br><span class="line"></span><br><span class="line">        log.info(<span class="string">"【queryBuilder】= &#123;&#125;"</span>, JSONUtil.toJsonStr(queryBuilder.build()));</span><br><span class="line"></span><br><span class="line">        AggregatedPage&lt;Person&gt; people = (AggregatedPage&lt;Person&gt;) repo.search(queryBuilder.build());</span><br><span class="line">        <span class="keyword">double</span> avgAge = ((InternalAvg) people.getAggregation(<span class="string">"avg"</span>)).getValue();</span><br><span class="line">        log.info(<span class="string">"【avgAge】= &#123;&#125;"</span>, avgAge);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试高级聚合查询，每个国家的人有几个，每个国家的平均年龄是多少</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">advanceAgg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 构造查询条件</span></span><br><span class="line">        NativeSearchQueryBuilder queryBuilder = <span class="keyword">new</span> NativeSearchQueryBuilder();</span><br><span class="line">        <span class="comment">// 不查询任何结果</span></span><br><span class="line">        queryBuilder.withSourceFilter(<span class="keyword">new</span> FetchSourceFilter(<span class="keyword">new</span> String[]&#123;<span class="string">""</span>&#125;, <span class="keyword">null</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1. 添加一个新的聚合，聚合类型为terms，聚合名称为country，聚合字段为age</span></span><br><span class="line">        queryBuilder.addAggregation(AggregationBuilders.terms(<span class="string">"country"</span>).field(<span class="string">"country"</span>)</span><br><span class="line">                <span class="comment">// 2. 在国家聚合桶内进行嵌套聚合，求平均年龄</span></span><br><span class="line">                .subAggregation(AggregationBuilders.avg(<span class="string">"avg"</span>).field(<span class="string">"age"</span>)));</span><br><span class="line"></span><br><span class="line">        log.info(<span class="string">"【queryBuilder】= &#123;&#125;"</span>, JSONUtil.toJsonStr(queryBuilder.build()));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 查询</span></span><br><span class="line">        AggregatedPage&lt;Person&gt; people = (AggregatedPage&lt;Person&gt;) repo.search(queryBuilder.build());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 解析</span></span><br><span class="line">        <span class="comment">// 4.1. 从结果中取出名为 country 的那个聚合，因为是利用String类型字段来进行的term聚合，所以结果要强转为StringTerm类型</span></span><br><span class="line">        StringTerms country = (StringTerms) people.getAggregation(<span class="string">"country"</span>);</span><br><span class="line">        <span class="comment">// 4.2. 获取桶</span></span><br><span class="line">        List&lt;StringTerms.Bucket&gt; buckets = country.getBuckets();</span><br><span class="line">        <span class="keyword">for</span> (StringTerms.Bucket bucket : buckets) &#123;</span><br><span class="line">            <span class="comment">// 4.3. 获取桶中的key，即国家名称  4.4. 获取桶中的文档数量</span></span><br><span class="line">            log.info(<span class="string">"&#123;&#125; 总共有 &#123;&#125; 人"</span>, bucket.getKeyAsString(), bucket.getDocCount());</span><br><span class="line">            <span class="comment">// 4.5. 获取子聚合结果：</span></span><br><span class="line">            InternalAvg avg = (InternalAvg) bucket.getAggregations().asMap().get(<span class="string">"avg"</span>);</span><br><span class="line">            log.info(<span class="string">"平均年龄：&#123;&#125;"</span>, avg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参考</p>
+<p>ElasticSearch 官方文档：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.x/getting-started.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/6.x/getting-started.html</a><br>spring-data-elasticsearch 官方文档：<a href="https://docs.spring.io/spring-data/elasticsearch/docs/3.1.2.RELEASE/reference/html/" target="_blank" rel="noopener">https://docs.spring.io/spring-data/elasticsearch/docs/3.1.2.RELEASE/reference/html/</a></p>
+</blockquote>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -193,93 +308,104 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/25/docker-elasticsearch/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/23/spring-security/" class="archive-article-date">
-  	<time datetime="2019-07-23T12:21:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/23/spring-security/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Spring Security快速搭建</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/23/spring-security/">Spring Security快速搭建</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Spring-Security//" class="article-tag-list-link color1">Spring Security</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/22/shrio/" class="archive-article-date">
-  	<time datetime="2019-07-22T07:30:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-22</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/22/shrio/">Apache Shiro简介</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Shiro//" class="article-tag-list-link color1">Shiro</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -302,8 +428,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
