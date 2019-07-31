@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="All categories,">
 
 
 
@@ -80,6 +80,7 @@
 
 
 <meta name="description" content="Spring Security 提供了基于javaEE的企业应有个你软件全面的安全服务。大部分都发现了javaEE的Servlet规范或EJB规范中的安全功能缺乏典型企业应用场景所需的深度。提到这些规范，重要的是要认识到他们在WAR或EAR级别无法移植。因此如果你更换服务器环境，这里有典型的大量工作去重新配置你的应用程序员安全到新的目标环境。使用Spring Security 解决了这些问题，也为">
+<meta name="keywords" content="All categories">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Security快速搭建">
 <meta property="og:url" content="http://yoursite.com/2019/07/23/spring-security/index.html">
@@ -88,7 +89,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://github.com/dlpuscq/pic/blob/master/login.png?raw=true">
 <meta property="og:image" content="https://github.com/dlpuscq/pic/blob/master/spring-security.png?raw=true">
-<meta property="og:updated_time" content="2019-07-25T14:00:09.033Z">
+<meta property="og:updated_time" content="2019-07-31T15:51:57.427Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Security快速搭建">
 <meta name="twitter:description" content="Spring Security 提供了基于javaEE的企业应有个你软件全面的安全服务。大部分都发现了javaEE的Servlet规范或EJB规范中的安全功能缺乏典型企业应用场景所需的深度。提到这些规范，重要的是要认识到他们在WAR或EAR级别无法移植。因此如果你更换服务器环境，这里有典型的大量工作去重新配置你的应用程序员安全到新的目标环境。使用Spring Security 解决了这些问题，也为">
@@ -189,6 +190,26 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
           </a>
         </li>
       
@@ -300,6 +321,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/23/spring-security/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/23/spring-security/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -357,10 +388,45 @@
     
 
     
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请作者喝杯冰啤酒</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpeg" alt="drama WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="drama Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
 
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/All-categories/" rel="tag"># All categories</a>
+          
+        </div>
       
 
       
@@ -411,6 +477,12 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2019/07/23/spring-security/" data-title="Spring Security快速搭建" data-url="http://yoursite.com/2019/07/23/spring-security/">
+      </div>
+    </div>
 
   
 
@@ -472,13 +544,22 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
             
 
           </nav>
@@ -650,25 +731,35 @@
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
   
 
 
 
 
-	
 
 
-
-
-
-  
-
-
-
-
-
-  
 
 
 
